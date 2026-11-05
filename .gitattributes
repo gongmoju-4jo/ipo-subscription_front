@@ -1,0 +1,7 @@
+# 개행은 저장소에서 LF로 통일한다 (Windows, Mac 팀원 혼용 시 개행 충돌 방지)
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary

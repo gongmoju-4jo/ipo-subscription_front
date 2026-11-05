@@ -1,0 +1,19 @@
+# 프론트만 띄운다. 백엔드(ipo-subscription)의 게이트웨이가 먼저 떠 있어야 API가 동작한다.
+#   docker compose up -d --build
+#   → http://localhost:${FRONT_PORT:-8088}
+#
+# GATEWAY_URL
+#   - 백엔드를 IntelliJ 로 띄운 경우(게이트웨이가 내 PC 8080): 기본값 http://host.docker.internal:8080
+#   - 백엔드를 docker-compose 로 띄운 경우: 게이트웨이는 127.0.0.1 에만 열려 있어 위 기본값으로 접근된다
+#   - 다른 주소를 쓰려면 .env 에 GATEWAY_URL 을 적는다
+services:
+  frontend:
+    build: .
+    container_name: ipo-front
+    environment:
+      GATEWAY_URL: ${GATEWAY_URL:-http://host.docker.internal:8080}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:${FRONT_PORT:-8088}:80"
+    restart: unless-stopped
